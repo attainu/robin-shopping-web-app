@@ -9,8 +9,10 @@
             </button>
 
             <div class="attractivesearchbar">
-                <input class="tageofinput" type="text" placeholder="Search...">
-                <div class="search"></div>
+                <form action="/searchbykey"  method="get">
+                    <input class="tageofinput" type="text" name="dsearch" placeholder="Search...">
+                    <div class="search"></div>
+                </form>
             </div>
 
             {{!-- ========================================================= --}}
@@ -25,7 +27,7 @@
                     </button>
 
                     {{!-- ========================================================= --}}
-                    <a href="/">A~Shopping~Cart</a>
+                    <a class="a_shopping_cart" href="/">A~Shopping~Cart</a>
 
                 </div>
                 <div class="col-sm-12 col" style="float: right;">
@@ -48,14 +50,14 @@
                             </a>
 
                             <div class="dropdown dropdown-menu">
-                                    {{# if login }}
-                                    <li><a href="/user/profile">USER : {{ user }}</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="/user/logout">Logout</a></li>
-                                    {{ else }}
-                                    <li><a href="/user/signup">Sign up</a></li>
-                                    <li><a href="/user/signin">Sign in</a></li>
-                                    {{/if}}
+                                {{# if login }}
+                                <li><a href="/user/profile">USER : {{ user }}</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/user/logout">Logout</a></li>
+                                {{ else }}
+                                <li><a href="/user/signup">Sign up</a></li>
+                                <li><a href="/user/signin">Sign in</a></li>
+                                {{/if}}
                             </div>
                         </div>
 

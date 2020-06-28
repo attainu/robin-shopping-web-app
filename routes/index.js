@@ -4,6 +4,11 @@ var router = express.Router();
 var Product = require('../models/product');
 var Cart = require('../models/cart');
 var Order = require('../models/order');
+const {
+    sendMailToUser,
+    sendOrderStatus
+  } = require("../utils/generateEmail");
+  
 
 const productChunks = [];
 Product.find((err, docs) => {
@@ -73,7 +78,8 @@ router.get('/shoppingcart', function (req, res, next) {
         return res.render('shop/shoppingcart', { products: cart.generateArray(), totalPrice: cart.totalPrice});
     }
     var cart = new Cart(req.session.cart);
-    return res.render('shop/shoppingcart', { products: cart.generateArray(), totalPrice: cart.totalPrice, user: req.user.name });
+    console.log(cart.generateArray().length)
+    return res.render('shop/shoppingcart', { successMgs:cart.generateArray().length,products: cart.generateArray(), totalPrice: cart.totalPrice, user: req.user.name });
     
 });
 
@@ -85,7 +91,7 @@ router.get('/checkout', isLoggedIn, function (req, res, next) {
     }
     var cart = new Cart(req.session.cart);
     var errMsg = req.flash('error')[0];
-    return res.render('shop/checkout', { total: cart.totalPrice, errMsg: errMsg, noError: !errMsg });
+    return res.render('shop/checkout', { user: req.user.name,total: cart.totalPrice, errMsg: errMsg, noError: !errMsg });
 });
 
 router.post('/checkout', isLoggedIn, function (req, res, next) {
@@ -120,16 +126,18 @@ router.post('/checkout', isLoggedIn, function (req, res, next) {
             pin: Number(req.body.pin),
             paymentId: charge.id
         });
-        console.log(order)
+        // console.log(order)
+        const amount= cart.totalPrice * 100
         order.save(function (err, result) {
-            console.log(err)
-            console.log(result)
+            // console.log(err)
+            // console.log(result)
             if (err) {
                 req.flash('error', err.message );
                return res.redirect('/checkout')
             }
 
-            req.flash('success', 'Successfully bought product!');
+            sendMailToUser(req.user.email, 'success', amount, charge.id);
+            req.flash('success', 'Successfully bought product! you will receive a email shortle with your order details...');
             req.session.cart = null;
             res.redirect('/')
         });

@@ -371,3 +371,14 @@ a:hover {
       background:red;
 
     }
+
+    .wideimg{
+      height: auto;
+      width:70rem;
+    }
+
+    @media only screen and (max-width: 700px) {
+      .a_shopping_cart {
+        opacity: 0.1;
+      }
+    }
