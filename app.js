@@ -16,6 +16,8 @@ const dotenv = require("dotenv");
 
 var index = require('./routes/index');
 var userRoutes = require('./routes/user');
+var singleProduct = require('./routes/singleproduct');
+var searchProduct = require('./routes/searchproduct');
 
 var app = express();
 
@@ -57,8 +59,10 @@ app.use(function(req, res, next) {
    next();
 });
 
-app.use('/user', userRoutes);
 app.use('/', index);
+app.use('/user', userRoutes);
+app.use('/', singleProduct);
+app.use('/', searchProduct);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
