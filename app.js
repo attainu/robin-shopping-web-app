@@ -60,7 +60,10 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', index);
+<<<<<<< HEAD
 app.use('/user', userRoutes);
+=======
+>>>>>>> c29a638b63ba9635f2312076598a76e94430a4af
 app.use('/', singleProduct);
 app.use('/', searchProduct);
 
